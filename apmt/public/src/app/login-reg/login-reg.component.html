@@ -1,0 +1,17 @@
+<p *ngIf="message !== ''" style="color: red;">
+    {{message}}
+</p>
+<h2>Register a new user</h2>
+<form (submit)="register()">
+    <p>Email: <input type="email" name="email" [(ngModel)]="newUser.email"></p>
+    <p>Password: <input type="password" name="password" [(ngModel)]="newUser.password"></p>
+    <p>Password Confirmation: <input type="password" name="password_confirmation" [(ngModel)]="newUser.passwordConfirmation"></p>
+    <input type="submit">
+</form>
+
+<html>Login an existing user</html>
+<form (submit)="login()">
+    <p>Email: <input type="email" name="email" [(ngModel)]="user.email"></p>
+    <p>Password: <input type="password" name="password" [(ngModel)]="user.password"></p>
+    <input type="submit">
+</form>
