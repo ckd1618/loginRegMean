@@ -26,3 +26,7 @@ require('./server/config/routes.js')(app);
 app.listen(8000, function () {
     console.log("listening on port 8000");
 })
+
+//NOTE: IN ORDER FOR IT TO PROPERLY DEPLOY AT LOCALHOST:8000 YOU MUST RUN THE FOLLOWING TERMINAL COMMANDS:
+//FRONTEND INSIDE OF PUBLIC: ng build --watch (not ng serve, this will deploy at localhost:4200 and the session cookies will be lost)
+//BACKEND INSIDE OF YOUR SERVER.JS FOLDER: nodemon server.js
