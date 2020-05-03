@@ -1,0 +1,30 @@
+npm init -y // creates package.json
+yarn add -D typescript //creates yarn.lock
+npx tsc --init //creates tsconfig.json
+
+//create a folder called src, and a file inside called index.ts
+
+//to transpile it into javascript, in package.json inside of scripts change it to {"build": "tsc"},
+yarn build //run from root, (in the same folder as yarn.lock), this will create an index.js file from the index.ts file
+node src/index.js //run from root
+
+//you need to compile and then run it every time, this is annoying so we use a module called ts-node
+yarn add -D ts-node
+//add to scripts, "start", "ts-node src/index.ts"
+//this points it to a typescript file and responds to the "start" keyword
+yarn start
+
+yarn add -D ts-node-dev
+//now change "start" value to "start" : "ts-node-dev --respawn src/index.ts"
+yarn start
+
+//or you can use nodemon
+yarn add -D nodemon
+//add to scripts the following, "dev": "nodemon --exec ts-node src/index.ts"
+yarn add express
+yarn add -D @types/express
+yarn add -D @types/node
+//anytime you add a package, you will also try adding @types/<nameofyourpackage>
+//if your package does have a @types/ then you can make a folder called @types under src, and name it
+//<modulename>.d.ts and inside write: declare module "<modulename>";
+command+shift+p == restart typescript server, so that wierd bugs go away
