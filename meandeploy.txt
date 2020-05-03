@@ -1,0 +1,80 @@
+
+git remote add origin https://gitlab.com/WHATERVER
+git push -u origin --all
+git push -u origin --tags
+
+// STEPS begin here
+sudo apt-get update
+sudo api-get install -y build-essential openssl libssl-dev pkg-config
+sudo apt-get install -y nodejs nodejs-legacy
+// (or, sudo apt install nodejs-legacy , if above does not work)
+sudo apt-get install npm -y
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+// (the above is node package manager)
+sudo npm install -g @angular/cli
+sudo apt-get install nginx git -y
+//above is for nginx
+
+//NOW CLONE PROJECT
+cd /var/www
+sudo git clone PROJECT-FILE-PATH-ON-GITLAB
+
+//setup nginx
+cd /etc/nginx/sites-available
+
+
+//use vim, i (insert), esc (to turn off insert), :wq (to save and quit)
+sudo vim REPOSITORY-NAME
+
+//add the following to vim, be sure to change the url and the port number
+//the reverse proxy server (nginx) listens at port 80
+//IMPORTANT NOTE: CHANGE THE HTTP:// VALUE TO YOUR IPV4 ADDRESS, BUT KEEP :8000 AT THE END, EXACTLY 4 LINES BELOW THIS LINE
+server {
+    listen 80;
+    location / {
+        proxy_pass http://172.31.45.159:8000 
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+//now remove the default from nginx's sites-available directory
+sudo rm default
+
+//create a symbolic link from sites-enabled to sites-available:
+sudo ln -s /etc/nginx/sites-available/REPO-NAME-GOES-HERE /etc/nginx/sites-enabled/REPO-NAME-GOES-HERE
+
+//remove the default from nginx's sites-enabled directory
+sudo rm /etc/nginx/sites-enabled/default
+
+//now install pm2 golbally which is a project dependency, it is a production process manager to allow 
+//node processes in the background
+sudo npm install pm2 -g
+
+//now go back to your project and change its permissions
+cd /var/www
+sudo chown -R ubuntu REPO-NAME-GOES-HERE
+
+//navigate back to the project, install the node modules, and build the dist folder
+cd REPO-NAME-GOES-HERE
+npm install
+cd public
+npm install
+ng build
+
+//if you have a database on the server itself, rather than remotely, do that config now, we skip this for ibm db2
+
+//now start your pm2 project and restart nginx
+cd /var/www/REPO-NAME-GOES-HERE
+pm2 start server.js
+sudo service nginx stop && sudo service nginx start
+
+//the site should be live, you can see the logs of your different pm2 instances
+//https://demo-reporting.healthinteractive.com/ 
+pm2 logs
+pm2 show PM2-INSTANCE-ID
