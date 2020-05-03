@@ -28,3 +28,55 @@ yarn add -D @types/node
 //if your package does have a @types/ then you can make a folder called @types under src, and name it
 //<modulename>.d.ts and inside write: declare module "<modulename>";
 command+shift+p == restart typescript server, so that wierd bugs go away
+
+//brad traversy------------------------------------------------
+npm i -g typescript //this will give us the tsc of the typescript compiler
+tsc --version
+type nul > app.ts
+code app.ts
+
+tsc app.ts //will generate an app.js file
+tsc app.ts -w //will watch and auto update the file
+
+//but this is not ideal, you really want a typescript config file
+
+tsc --init //tsconfig.json
+//you can change the target: "es6" 
+//uncomment "outDir": "./dist", "rootDir": "./src", "moduleResolution": "node"
+//create a src folder that has your .ts file
+tsc //you don't have to type the file name in, it will just run from the mentioned location
+
+//express instructions below
+npm init -y
+npm i express
+npm i -D typescript ts-node nodemon @types/node @types/express
+//add to scripts, "start": "node dist/app.js", "dev": "nodemon src/app.ts", "build": "tsc -p ."
+
+npm run build //creates a dist folder, inside is app.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
